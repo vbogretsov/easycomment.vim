@@ -21,16 +21,17 @@ function! Comment(mode) range
         return
     endif
 
-    let x = col('.')
-    let y = line('.')
-
     let c = s:signs[&ft]
 
     if a:mode == 'n'
-        let a = line(".")
+        let x = col('.')
+        let a = line('.')
+
         let n = indent(l:a)
         call s:comment(l:a, l:n, l:c)
     else
+        let x = col("'<")
+
         let a = line("'<")
         let b = line("'>")
         let n = 1000
@@ -51,7 +52,7 @@ function! Comment(mode) range
         endwhile
     endif
 
-    call cursor(l:y, l:x)
+    call cursor(l:a, l:x)
 endfunction
 
 function! Uncomment(mode)
@@ -59,15 +60,14 @@ function! Uncomment(mode)
         return
     endif
 
-    let x = col('.')
-    let y = line('.')
-
     let c = s:signs[&ft]
 
     if a:mode == 'n'
+        let x = col('.')
         let a = line('.')
         call s:uncomment(l:a, l:c)
     else
+        let x = col("'<")
         let a = line("'<")
         let b = line("'>")
 
@@ -78,5 +78,5 @@ function! Uncomment(mode)
         endwhile
     endif
 
-    call cursor(l:y, l:x)
+    call cursor(l:a, l:x)
 endfunction
